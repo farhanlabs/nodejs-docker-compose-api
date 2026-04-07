@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+    # Sirf zaroori files ke change hone par workflow chalega
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - '**.md'
 
 jobs:
   deploy:
@@ -19,8 +25,15 @@ jobs:
           host: 3.6.40.20
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
+          # Script ko clean aur efficient banaya gaya hai
           script: |
             cd nodejs-docker-compose-api
             git pull origin main
-            docker-compose down
-            docker-compose up -d --build
+            
+            # --build: Nayi image banayega agar code change hua hai
+            # -d: Background mein chalayega
+            # --remove-orphans: Purane unused containers ko hata dega
+            docker-compose up -d --build --remove-orphans
+            
+            # Optional: Purani images clean karne ke liye (disk space bachegi)
+            docker image prune -f
