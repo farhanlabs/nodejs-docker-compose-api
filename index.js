@@ -97,7 +97,7 @@ app.get('/', (req, res) => {
                 <p><strong>Hostname:</strong> ${os.hostname()}</p>
             </div>
 
-            <div class="badge">Healthy</div>
+            <div class="badge">Healthy Hai Guru</div>
 
             <div class="section">
                 <h3>📦 Docker Setup</h3>
